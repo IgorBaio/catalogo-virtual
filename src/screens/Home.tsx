@@ -1,10 +1,19 @@
-import { products } from "../data/products";
 import { ProductsCard } from "../components/ProductsCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
+import { getProducts, Product } from "@/services/productApi";
 
 export default function Home() {
   const [showCart, setShowCart] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    getProducts()
+      .then(setProducts)
+      .catch(() => {
+        // Falha ao buscar produtos. Mantém lista vazia.
+      });
+  }, []);
   return (
     
     <div className="flex flex-col p-0" style={{
@@ -36,10 +45,13 @@ export default function Home() {
               description={item.description}
               price={item.price}
               // image={item.image}
-              whatsappMessage={item.whatsappMessage}
+              whatsappMessage={
+                item.whatsappMessage ||
+                `Olá, tenho interesse no produto ${item.name}.`
+              }
             />
 
-         
+
           </div>
         ))}
       </div>
