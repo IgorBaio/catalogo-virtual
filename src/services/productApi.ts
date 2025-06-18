@@ -17,21 +17,6 @@ export async function getProducts(): Promise<Product[]> {
   return response.json();
 }
 
-export async function createProduct(product: Omit<Product, 'id'>): Promise<Product> {
-  const response = await fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(product),
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to create product');
-  }
-
-  return response.json();
-}
 
 export async function updateProduct(id: number, product: Partial<Product>): Promise<Product> {
   const response = await fetch(`${API_URL}/${id}`, {
