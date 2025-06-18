@@ -17,25 +17,19 @@ body,
 } */
 
 @media (max-width: 768px) {
-  /* html,
-body, */
-
   #root {
-    width: 100vh !important;
-    /* padding: 0 1rem;  */
-    /* se quiser dar um respiro lateral */
+    width: 100%;
   }
 }
 
 html{
-  width: -webkit-fill-available !important;
+  width: 100%;
 }
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  /* width: 100% !important; */
-  width: -webkit-fill-available !important;
+  width: 100%;
 
   color-scheme: light dark;
   color: rgba(53, 48, 48, 0.87);
@@ -98,7 +92,7 @@ body {
   place-items: center;
   min-width: 100%;
   min-height: 100vh;
-  width: -webkit-fill-available !important;
+  width: 100%;
 }
 
 h1 {
