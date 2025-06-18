@@ -18,18 +18,3 @@ export async function getProducts(): Promise<Product[]> {
 }
 
 
-export async function updateProduct(id: number, product: Partial<Product>): Promise<Product> {
-  const response = await fetch(`${API_URL}/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(product),
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to update product');
-  }
-
-  return response.json();
-}

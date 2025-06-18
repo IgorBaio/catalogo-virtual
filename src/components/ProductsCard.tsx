@@ -11,7 +11,6 @@ import ProductImage from "./ProductImage";
 import { ProductsCardTypes } from "@/types/ProductsCardTypes";
 import { useCartStore } from "@/stores/CartStore";
 import { AddCartItem } from "./AddCartItem";
-import { updateProduct } from "@/services/productApi";
 
 // import { randomArray, randomAvatar } from "./../../../utilities";
 
@@ -54,14 +53,6 @@ const ProductsCard = ({
               price,
             }}
           />
-          <button
-            onClick={() =>
-              updateProduct(id, { name, price, description }).catch(() => {})
-            }
-            className="mt-2 bg-gray-200 text-gray-800 rounded py-1 px-2"
-          >
-            Atualizar no servidor
-          </button>
         </CardContent>
         {/* <CardFooter>
         <p>Card Footer</p>
