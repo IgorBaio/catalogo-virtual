@@ -1,11 +1,46 @@
 import { ProductsCard } from "../components/ProductsCard";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import { getProducts, Product } from "@/services/productApi";
+import {
+  getProducts,
+  createProduct,
+  Product,
+} from "@/services/productApi";
 
 export default function Home() {
   const [showCart, setShowCart] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
+  const [form, setForm] = useState<Omit<Product, "id">>({
+    name: "",
+    price: "",
+    description: "",
+    image: "",
+    whatsappMessage: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const created = await createProduct(form);
+      setProducts((prev) => [...prev, created]);
+      setForm({
+        name: "",
+        price: "",
+        description: "",
+        image: "",
+        whatsappMessage: "",
+      });
+    } catch {
+      // falha silenciosa
+    }
+  };
 
   useEffect(() => {
     getProducts()
@@ -20,6 +55,52 @@ export default function Home() {
       width: "-webkit-fill-available",
     }}>
       <Navbar onCartClick={() => setShowCart(!showCart)} />
+      <form onSubmit={handleSubmit} className="p-4 flex flex-col gap-2">
+        <input
+          className="border p-2"
+          name="name"
+          placeholder="Nome"
+          value={form.name}
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="border p-2"
+          name="price"
+          placeholder="Preço"
+          value={form.price}
+          onChange={handleChange}
+          required
+        />
+        <textarea
+          className="border p-2"
+          name="description"
+          placeholder="Descrição"
+          value={form.description}
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="border p-2"
+          name="image"
+          placeholder="Imagem (URL)"
+          value={form.image}
+          onChange={handleChange}
+        />
+        <input
+          className="border p-2"
+          name="whatsappMessage"
+          placeholder="Mensagem do WhatsApp"
+          value={form.whatsappMessage}
+          onChange={handleChange}
+        />
+        <button
+          type="submit"
+          className="bg-blue-600 text-white rounded py-2 px-4"
+        >
+          Criar Produto
+        </button>
+      </form>
       {/* Modal simples com os produtos do carrinho */}
       {showCart && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-40">
