@@ -16,7 +16,7 @@ export default function Home() {
   }, []);
   return (
 
-    <div className="flex flex-col p-0 w-full">
+    <div className="flex flex-col p-0 w-screen">
       <Navbar onCartClick={() => setShowCart(!showCart)} />
       {/* Modal simples com os produtos do carrinho */}
       {showCart && (
