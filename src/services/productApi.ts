@@ -1,4 +1,5 @@
-const API_URL = 'https://webhook.igor.evodreamlabs.com.br/webhook/produtos';
+const API_URL =
+  'https://webhook-workflows.baiosystems.com.br/webhook/produtos';
 
 export interface Product {
   id: number;
