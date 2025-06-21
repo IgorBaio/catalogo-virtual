@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 #root{
-  width: 100%;
+  width: 100vw;
 }
 /* 
 html,
@@ -17,25 +17,19 @@ body,
 } */
 
 @media (max-width: 768px) {
-  /* html,
-body, */
-
   #root {
-    width: 100vh !important;
-    /* padding: 0 1rem;  */
-    /* se quiser dar um respiro lateral */
+    width: 100vw;
   }
 }
 
 html{
-  width: -webkit-fill-available !important;
+  width: 100vw;
 }
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  /* width: 100% !important; */
-  width: -webkit-fill-available !important;
+  width: 100vw;
 
   color-scheme: light dark;
   color: rgba(53, 48, 48, 0.87);
@@ -96,9 +90,9 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 100%;
+  min-width: 100vw;
   min-height: 100vh;
-  width: -webkit-fill-available !important;
+  width: 100vw;
 }
 
 h1 {
