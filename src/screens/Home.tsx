@@ -2,9 +2,7 @@ import { products as ProductMock } from "../data/products";
 import { ProductsCard } from "../components/ProductsCard";
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
-import { api } from "@/services/api";
 import { getProducts } from "@/functions/getProducts";
-import { ProductsCardTypes } from "@/types/ProductsCardTypes";
 import CartModal from "@/components/CartModal";
 
 export default function Home() {

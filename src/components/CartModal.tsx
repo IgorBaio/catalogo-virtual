@@ -5,55 +5,51 @@ import { useEffect, useState } from "react";
 import { ProductType } from "@/types/ProductType";
 import { CartItemType } from "@/types/CartItemType";
 export default function CartModal({ setShowCart }: any) {
-/**
- * TODO
- * - [ ] Adicionar a quantidade de produtos no carrinho
- * - [ ] Adicionar opçao de aumentar e dimnuir itens no carrinho
- * - [ ] Adicionar o valor total do carrinho
- * - [X] Adicionar a opção de finalizar compra
- * - [X] Adicionar a opção de continuar comprando
- * - [ ] Adicionar a opção de limpar o carrinho
- * - [X] Diminuir o tamanho do botao de remover item
- * 
- */
+  /**
+   * TODO
+   * - [ ] Adicionar a quantidade de produtos no carrinho
+   * - [ ] Adicionar opçao de aumentar e dimnuir itens no carrinho
+   * - [ ] Adicionar o valor total do carrinho
+   * - [X] Adicionar a opção de finalizar compra
+   * - [X] Adicionar a opção de continuar comprando
+   * - [ ] Adicionar a opção de limpar o carrinho
+   * - [X] Diminuir o tamanho do botao de remover item
+   *
+   */
 
-  const {cart, setCart } = useCartStore((state: CartStoreType) => state);
+  const { cart, setCart } = useCartStore((state: CartStoreType) => state);
 
   const [cartItems, setCartItems] = useState([] as CartItemType[]);
 
-// const [cartItem]
+  // const [cartItem]
 
-  const removeItem = (id: number, idx:number) => {
-
+  const removeItem = (id: number, idx: number) => {
     const quantityOfItems = cart.filter((item) => item.id === id).length;
-    console.log('quantityOfItems', quantityOfItems)
-    if(quantityOfItems === 1){
-        const updatedCart = cart.filter((item) => item.id !== id);
-        console.log('updatedCart', updatedCart)
-        setCart(updatedCart );
-    }
-    else{
-
-      console.log('else', )
-        const newCart: ProductType[] = []
-        cart.forEach((item, index) => {
-            if(item.id !== id && index !== idx){
-                newCart.push({
-                    ...item,
-                    // quantity: item.quantity - 1
-                })
-                
-            }
-            // return item;
+    console.log("quantityOfItems", quantityOfItems);
+    if (quantityOfItems === 1) {
+      const updatedCart = cart.filter((item) => item.id !== id);
+      console.log("updatedCart", updatedCart);
+      setCart(updatedCart);
+    } else {
+      console.log("else");
+      const newCart: ProductType[] = [];
+      cart.forEach((item, index) => {
+        if (item.id !== id && index !== idx) {
+          newCart.push({
+            ...item,
+            // quantity: item.quantity - 1
+          });
         }
-        )
-        console.log('newCart', newCart)
-        const updatedCart = cart.filter((item, index) => item.id !== id && index !== idx);
-        console.log('updatedCart', updatedCart)
-        setCart(updatedCart );
+        // return item;
+      });
+      console.log("newCart", newCart);
+      const updatedCart = cart.filter(
+        (item, index) => item.id !== id && index !== idx
+      );
+      console.log("updatedCart", updatedCart);
+      setCart(updatedCart);
     }
-    
-  }
+  };
 
   const finalizeOrder = () => {
     if (cartItems.length === 0) return;
@@ -61,51 +57,56 @@ export default function CartModal({ setShowCart }: any) {
     const itemsMessage = cartItems
       .map(
         (item) =>
-          `${item.quantity}x ${item.product.name} - R$ ${item.totalPrice.toFixed(2)}`
+          `${item.quantity}x ${
+            item.product.name
+          } - R$ ${item.totalPrice.toFixed(2)}`
       )
       .join("\n");
-    const message = `Olá, gostaria de finalizar meu pedido:\n${itemsMessage}\nTotal: R$ ${total.toFixed(2)}`;
-    window.open(
-      `https://wa.me/5532999742701?text=${encodeURIComponent(message)}`,
-      "_blank"
-    );
+    const message = `Olá, gostaria de finalizar meu pedido:\n${itemsMessage}\nTotal: R$ ${total.toFixed(
+      2
+    )}`;
+    // window.open(
+    //   `https://wa.me/5532999742701?text=${encodeURIComponent(message)}`,
+    //   "_blank",
+    //   "noopener,noreferrer"
+    // );
+    return `https://wa.me/5532999742701?text=${encodeURIComponent(message)}`
   };
 
   useEffect(() => {
     const cartItemsAux = [] as CartItemType[];
-    console.log('cartItemsAux', cartItemsAux)
-    console.log('cart', cart)
+    console.log("cartItemsAux", cartItemsAux);
+    console.log("cart", cart);
     cart.forEach((item) => {
-        if(cartItemsAux.some((cartItem) => cartItem.product.id === item.id)) {
-            const itemToAdd = cartItemsAux.find((cartItem) => cartItem.product.id === item.id);
-            if(itemToAdd) {
-                itemToAdd.quantity += 1;
-                itemToAdd.totalPrice += item.price;
-            }
-        }else{
-// debugger
-            cartItemsAux.push({
-                product: item,
-            quantity: 1,
-            totalPrice: item.price,
-            // totalPriceWithDiscount: item.price - (item.price * (item.discount / 100)),
-        })
-    }
-        // cartItemsAux.push({
-        //     id: item.id,
-        //     name: item.name,
-        //     description: item.description,
-        //     price: item.price,
-        //     quantity: 1,
-        //     totalPrice: item.price,
-        // });
-        })
+      if (cartItemsAux.some((cartItem) => cartItem.product.id === item.id)) {
+        const itemToAdd = cartItemsAux.find(
+          (cartItem) => cartItem.product.id === item.id
+        );
+        if (itemToAdd) {
+          itemToAdd.quantity += 1;
+          itemToAdd.totalPrice += item.price;
+        }
+      } else {
+        // debugger
+        cartItemsAux.push({
+          product: item,
+          quantity: 1,
+          totalPrice: item.price,
+          // totalPriceWithDiscount: item.price - (item.price * (item.discount / 100)),
+        });
+      }
+      // cartItemsAux.push({
+      //     id: item.id,
+      //     name: item.name,
+      //     description: item.description,
+      //     price: item.price,
+      //     quantity: 1,
+      //     totalPrice: item.price,
+      // });
+    });
 
-    setCartItems(
-      cartItemsAux  
-    );
-  }
-    , [cart]);
+    setCartItems(cartItemsAux);
+  }, [cart]);
 
   return (
     <div className="ModalContainer">
@@ -133,16 +134,20 @@ export default function CartModal({ setShowCart }: any) {
         {cartItems.length > 0 ? (
           <div className="flex flex-col gap-4">
             {cartItems.map((item, idx) => (
-              <div key={item.product.id} className="flex items-center justify-between">
+              <div
+                key={item.product.id}
+                className="flex items-center justify-between"
+              >
                 <div>
                   <span className="CartNameProduct">{item.product.name}</span>
-                  <p className="CartDescriptionProduct">{item.product.description}</p>
+                  <p className="CartDescriptionProduct">
+                    {item.product.description}
+                  </p>
                   <p className="CartDescriptionProduct">Quantidade:</p>
                   <div className="QuantityContainer">
-                    
                     <button
                       onClick={() => {
-                        removeItem(item.product.id, idx)
+                        removeItem(item.product.id, idx);
                         // Aqui você pode adicionar a lógica para aumentar a quantidade
                       }}
                       className="QuantityButton"
@@ -158,14 +163,14 @@ export default function CartModal({ setShowCart }: any) {
                     >
                       +
                     </button>
-                    </div>
+                  </div>
                   <span className="text-lg font-bold">{item.totalPrice}</span>
                 </div>
                 <button
                   onClick={() => {
-                    console.log('cart', cart)
-                    console.log('idx', idx)
-                    console.log('item.product.id', item.product.id)
+                    console.log("cart", cart);
+                    console.log("idx", idx);
+                    console.log("item.product.id", item.product.id);
                     removeItem(item.product.id, idx);
                     // Aqui você pode adicionar a lógica para remover o item do carrinho
                   }}
@@ -193,15 +198,18 @@ export default function CartModal({ setShowCart }: any) {
         ) : (
           <p className="text-gray-500">Seu carrinho está vazio.</p>
         )}
-            {cartItems.length > 0 && (
-              <button
-                onClick={finalizeOrder}
-                className="block mt-2 text-white bg-green-700 text-center rounded py-1"
-              >
-                Finalizar Pedido
-              </button>
-            )}
-        </div>
+        {cartItems.length > 0 && (
+          <a
+            // onClick={finalizeOrder}
+            href={finalizeOrder()}
+            className="block mt-2 text-white bg-green-700 text-center rounded py-1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Finalizar Pedido
+          </a>
+        )}
       </div>
-    );
-  }
+    </div>
+  );
+}
