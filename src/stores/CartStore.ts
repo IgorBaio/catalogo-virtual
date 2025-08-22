@@ -4,6 +4,20 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { ProductType } from "@/types/ProductType";
 import { CartStoreType } from "@/types/CartStoreType";
 
+const createStorage = () => {
+  if (typeof window !== "undefined") {
+    return localStorage;
+  }
+  return {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {},
+    clear: () => {},
+    key: () => null,
+    length: 0,
+  } as Storage;
+};
+
 export const useCartStore = create<CartStoreType>()(
   persist(
     (set) => ({
@@ -29,7 +43,7 @@ export const useCartStore = create<CartStoreType>()(
     }),
     {
       name: "cart-storage",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(createStorage),
       partialize: ({ cart }: CartStoreType) => ({ cart }),
     }
   )

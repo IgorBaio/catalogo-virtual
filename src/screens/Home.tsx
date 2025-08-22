@@ -9,17 +9,16 @@ export default function Home() {
   const [showCart, setShowCart] = useState(false);
 
   const [products, setProducts] = useState([]);
-  console.log('products', products)
 
   const loadProducts = async () => {
     // Aqui você pode fazer a chamada para a API para carregar os produtos
 
     getProducts().then((response) => {
-      console.log('response', response)
-      setProducts(response);
-    })
-
-  }
+      if (response) {
+        setProducts(response);
+      }
+    });
+  };
 
   useEffect(() => {
     loadProducts();
@@ -49,28 +48,27 @@ export default function Home() {
         </div>
       )} */}
 
-      {showCart ? <CartModal setShowCart={setShowCart} /> 
-    :  
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
-        {ProductMock.map((item) => (
-          <div key={item.id} className="">
-            <ProductsCard
-              id={item.id}
-              name={item.name}
-              description={item.description}
-              price={item.price}
-              // image={item.image}
-              whatsappMessage={
-                item.whatsappMessage ||
-                `Olá, tenho interesse no produto ${item.name}.`
-              }
-            />
-
-
-          </div>
-        ))}
-      </div>
-    }
+      {showCart ? (
+        <CartModal setShowCart={setShowCart} />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+          {(products.length ? products : ProductMock).map((item) => (
+            <div key={item.id} className="">
+              <ProductsCard
+                id={item.id}
+                name={item.name}
+                description={item.description}
+                price={item.price}
+                // image={item.image}
+                whatsappMessage={
+                  item.whatsappMessage ||
+                  `Olá, tenho interesse no produto ${item.name}.`
+                }
+              />
+            </div>
+          ))}
+        </div>
+      )}
 
     </div>
   );
