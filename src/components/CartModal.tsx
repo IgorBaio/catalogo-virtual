@@ -109,7 +109,26 @@ export default function CartModal({ setShowCart }: any) {
 
   return (
     <div className="ModalContainer">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+      <div className="relative bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+        <button
+          onClick={() => setShowCart(false)}
+          className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
         <h2 className="text-lg font-semibold mb-4">Seu Carrinho</h2>
         {cartItems.length > 0 ? (
           <div className="flex flex-col gap-4">
@@ -174,21 +193,15 @@ export default function CartModal({ setShowCart }: any) {
         ) : (
           <p className="text-gray-500">Seu carrinho está vazio.</p>
         )}
-        {cartItems.length > 0 && (
-          <button
-            onClick={finalizeOrder}
-            className="mt-4 px-4 py-2 bg-green-600 text-white rounded"
-          >
-            Finalizar Pedido
-          </button>
-        )}
-        <button
-          onClick={() => setShowCart(false)}
-          className="mt-4 px-4 py-2 bg-gray-800 text-white rounded"
-        >
-          Fechar
-        </button>
+            {cartItems.length > 0 && (
+              <button
+                onClick={finalizeOrder}
+                className="block mt-2 text-white bg-green-700 text-center rounded py-1"
+              >
+                Finalizar Pedido
+              </button>
+            )}
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
