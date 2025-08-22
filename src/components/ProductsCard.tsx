@@ -28,9 +28,7 @@ const ProductsCard = ({
   price,
   whatsappMessage,
   image = "https://github.com/shadcn.png",
-}: // status = "success",
-// onClick,
-ProductsCardTypes) => {
+}: ProductsCardTypes) => {
   const addToCart = useCartStore((state) => state.addToCart);
   return (
     <>
@@ -45,7 +43,7 @@ ProductsCardTypes) => {
           <p className="text-green-600">R$ {price.toFixed(2)}</p>
           <a
             href={`https://wa.me/5532999742701?text=${encodeURIComponent(
-              whatsappMessage
+              whatsappMessage ?? ''
             )}`}
             className="block mt-2 text-white bg-green-700 text-center rounded py-1"
             target="_blank"

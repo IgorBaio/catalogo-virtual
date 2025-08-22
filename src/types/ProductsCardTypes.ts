@@ -3,7 +3,7 @@ export interface ProductsCardTypes {
   name: string;
   description: string;
   price: number;
-  whatsappMessage: string;
+  whatsappMessage?: string;
   image?: string;
   ownerId?: string;
 }

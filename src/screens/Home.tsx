@@ -30,7 +30,7 @@ export default function Home() {
 
 
   return (
-    
+
     <div className="flex flex-col p-0" style={{
       width: "-webkit-fill-available",
     }}>
@@ -62,10 +62,13 @@ export default function Home() {
               description={item.description}
               price={item.price}
               // image={item.image}
-              whatsappMessage={item.whatsappMessage}
+              whatsappMessage={
+                item.whatsappMessage ||
+                `Olá, tenho interesse no produto ${item.name}.`
+              }
             />
 
-         
+
           </div>
         ))}
       </div>
