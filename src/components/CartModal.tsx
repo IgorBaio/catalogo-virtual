@@ -1,95 +1,56 @@
+import { useMemo } from "react";
 import { useCartStore } from "@/stores/CartStore";
 import { CartStoreType } from "@/types/CartStoreType";
-import "./CartModal.css";
-import { useEffect, useState } from "react";
-import { ProductType } from "@/types/ProductType";
 import { CartItemType } from "@/types/CartItemType";
-export default function CartModal({ setShowCart }: any) {
-/**
- * TODO
- * - [ ] Adicionar a quantidade de produtos no carrinho
- * - [ ] Adicionar opçao de aumentar e dimnuir itens no carrinho
- * - [ ] Adicionar o valor total do carrinho
- * - [ ] Adicionar a opção de finalizar compra
- * - [X] Adicionar a opção de continuar comprando
- * - [ ] Adicionar a opção de limpar o carrinho
- * - [X] Diminuir o tamanho do botao de remover item
- * 
- */
+import "./CartModal.css";
 
-  const {cart, setCart } = useCartStore((state: CartStoreType) => state);
+interface CartModalProps {
+  setShowCart: (value: boolean) => void;
+}
 
-  const [cartItems, setCartItems] = useState([] as CartItemType[]);
+export default function CartModal({ setShowCart }: CartModalProps) {
+  const { cart, addToCart, removeOneFromCart, removeFromCart, clearCart } =
+    useCartStore((state: CartStoreType) => ({
+      cart: state.cart,
+      addToCart: state.addToCart,
+      removeOneFromCart: state.removeOneFromCart,
+      removeFromCart: state.removeFromCart,
+      clearCart: state.clearCart,
+    }));
 
-// const [cartItem]
+  const cartItems = useMemo<CartItemType[]>(() => {
+    const items: CartItemType[] = [];
+    cart.forEach((product) => {
+      const existing = items.find((i) => i.product.id === product.id);
+      if (existing) {
+        existing.quantity += 1;
+        existing.totalPrice += product.price;
+      } else {
+        items.push({ product, quantity: 1, totalPrice: product.price });
+      }
+    });
+    return items;
+  }, [cart]);
 
-  const removeItem = (id: number, idx:number) => {
+  const cartTotal = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
 
-    const quantityOfItems = cart.filter((item) => item.id === id).length;
-    console.log('quantityOfItems', quantityOfItems)
-    if(quantityOfItems === 1){
-        const updatedCart = cart.filter((item) => item.id !== id);
-        console.log('updatedCart', updatedCart)
-        setCart(updatedCart );
-    }
-    else{
-
-      console.log('else', )
-        const newCart: ProductType[] = []
-        cart.forEach((item, index) => {
-            if(item.id !== id && index !== idx){
-                newCart.push({
-                    ...item,
-                    // quantity: item.quantity - 1
-                })
-                
-            }
-            // return item;
-        }
-        )
-        console.log('newCart', newCart)
-        const updatedCart = cart.filter((item, index) => item.id !== id && index !== idx);
-        console.log('updatedCart', updatedCart)
-        setCart(updatedCart );
-    }
-    
-  }
-
-  useEffect(() => {
-    const cartItemsAux = [] as CartItemType[];
-    console.log('cartItemsAux', cartItemsAux)
-    console.log('cart', cart)
-    cart.forEach((item) => {
-        if(cartItemsAux.some((cartItem) => cartItem.product.id === item.id)) {
-            const itemToAdd = cartItemsAux.find((cartItem) => cartItem.product.id === item.id);
-            if(itemToAdd) {
-                itemToAdd.quantity += 1;
-                itemToAdd.totalPrice += item.price;
-            }
-        }else{
-// debugger
-            cartItemsAux.push({
-                product: item,
-            quantity: 1,
-            totalPrice: item.price,
-            // totalPriceWithDiscount: item.price - (item.price * (item.discount / 100)),
-        })
-    }
-        // cartItemsAux.push({
-        //     id: item.id,
-        //     name: item.name,
-        //     description: item.description,
-        //     price: item.price,
-        //     quantity: 1,
-        //     totalPrice: item.price,
-        // });
-        })
-
-    setCartItems(
-      cartItemsAux  
+  const finalizePurchase = () => {
+    const itemsMessage = cartItems
+      .map(
+        (item) =>
+          `${item.quantity}x ${item.product.name} - R$ ${item.totalPrice.toFixed(
+            2
+          )}`
+      )
+      .join("\n");
+    const message = `Olá, gostaria de finalizar meu pedido:\n${itemsMessage}\nTotal: R$ ${cartTotal.toFixed(
+      2
+    )}`;
+    window.open(
+      `https://wa.me/5532999742701?text=${encodeURIComponent(message)}`,
+      "_blank"
     );
-  }
-    , [cart]);
+  };
 
   return (
     <div className="ModalContainer">
@@ -97,46 +58,39 @@ export default function CartModal({ setShowCart }: any) {
         <h2 className="text-lg font-semibold mb-4">Seu Carrinho</h2>
         {cartItems.length > 0 ? (
           <div className="flex flex-col gap-4">
-            {cartItems.map((item, idx) => (
-              <div key={item.product.id} className="flex items-center justify-between">
+            {cartItems.map((item) => (
+              <div
+                key={item.product.id}
+                className="flex items-center justify-between"
+              >
                 <div>
                   <span className="CartNameProduct">{item.product.name}</span>
-                  <p className="CartDescriptionProduct">{item.product.description}</p>
-                  <p className="CartDescriptionProduct">Quantidade:</p>
+                  <p className="CartDescriptionProduct">
+                    {item.product.description}
+                  </p>
                   <div className="QuantityContainer">
-                    
                     <button
-                      onClick={() => {
-                        removeItem(item.product.id, idx)
-                        // Aqui você pode adicionar a lógica para aumentar a quantidade
-                      }}
+                      onClick={() => removeOneFromCart(item.product.id)}
                       className="QuantityButton"
                     >
                       -
                     </button>
                     <span className="QuantityText">{item.quantity}</span>
                     <button
-                      onClick={() => {
-                        // Aqui você pode adicionar a lógica para diminuir a quantidade
-                      }}
+                      onClick={() => addToCart(item.product)}
                       className="QuantityButton"
                     >
                       +
                     </button>
-                    </div>
-                  <span className="text-lg font-bold">{item.totalPrice}</span>
+                  </div>
+                  <span className="text-lg font-bold">
+                    R$ {item.totalPrice.toFixed(2)}
+                  </span>
                 </div>
                 <button
-                  onClick={() => {
-                    console.log('cart', cart)
-                    console.log('idx', idx)
-                    console.log('item.product.id', item.product.id)
-                    removeItem(item.product.id, idx);
-                    // Aqui você pode adicionar a lógica para remover o item do carrinho
-                  }}
+                  onClick={() => removeFromCart(item.product.id)}
                   className="RemoveItemButton"
                 >
-                  {/* Adicionar icone de lixeira */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6"
@@ -154,6 +108,25 @@ export default function CartModal({ setShowCart }: any) {
                 </button>
               </div>
             ))}
+            <div className="flex justify-between mt-4">
+              <span className="font-semibold">
+                Total: R$ {cartTotal.toFixed(2)}
+              </span>
+            </div>
+            <div className="flex flex-col gap-2 mt-4">
+              <button
+                onClick={finalizePurchase}
+                className="px-4 py-2 bg-green-600 text-white rounded"
+              >
+                Finalizar compra
+              </button>
+              <button
+                onClick={clearCart}
+                className="px-4 py-2 bg-red-500 text-white rounded"
+              >
+                Limpar carrinho
+              </button>
+            </div>
           </div>
         ) : (
           <p className="text-gray-500">Seu carrinho está vazio.</p>
@@ -162,7 +135,7 @@ export default function CartModal({ setShowCart }: any) {
           onClick={() => setShowCart(false)}
           className="mt-4 px-4 py-2 bg-gray-800 text-white rounded"
         >
-          Fechar
+          Continuar comprando
         </button>
       </div>
     </div>

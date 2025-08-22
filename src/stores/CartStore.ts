@@ -11,6 +11,20 @@ export const useCartStore = create<CartStoreType>()(
       setCart: (cart: ProductType[]) => set({ cart }),
       addToCart: (product: ProductType) =>
         set((state: CartStoreType) => ({ cart: [...state.cart, product] })),
+      removeOneFromCart: (productId: number) =>
+        set((state: CartStoreType) => {
+          const index = state.cart.findIndex((item) => item.id === productId);
+          if (index === -1) {
+            return { cart: state.cart };
+          }
+          const newCart = [...state.cart];
+          newCart.splice(index, 1);
+          return { cart: newCart };
+        }),
+      removeFromCart: (productId: number) =>
+        set((state: CartStoreType) => ({
+          cart: state.cart.filter((item) => item.id !== productId),
+        })),
       clearCart: () => set({ cart: [] }),
     }),
     {
