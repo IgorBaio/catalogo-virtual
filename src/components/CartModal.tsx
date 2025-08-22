@@ -10,7 +10,7 @@ export default function CartModal({ setShowCart }: any) {
  * - [ ] Adicionar a quantidade de produtos no carrinho
  * - [ ] Adicionar opçao de aumentar e dimnuir itens no carrinho
  * - [ ] Adicionar o valor total do carrinho
- * - [ ] Adicionar a opção de finalizar compra
+ * - [X] Adicionar a opção de finalizar compra
  * - [X] Adicionar a opção de continuar comprando
  * - [ ] Adicionar a opção de limpar o carrinho
  * - [X] Diminuir o tamanho do botao de remover item
@@ -54,6 +54,22 @@ export default function CartModal({ setShowCart }: any) {
     }
     
   }
+
+  const finalizeOrder = () => {
+    if (cartItems.length === 0) return;
+    const total = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
+    const itemsMessage = cartItems
+      .map(
+        (item) =>
+          `${item.quantity}x ${item.product.name} - R$ ${item.totalPrice.toFixed(2)}`
+      )
+      .join("\n");
+    const message = `Olá, gostaria de finalizar meu pedido:\n${itemsMessage}\nTotal: R$ ${total.toFixed(2)}`;
+    window.open(
+      `https://wa.me/5532999742701?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
+  };
 
   useEffect(() => {
     const cartItemsAux = [] as CartItemType[];
@@ -157,6 +173,14 @@ export default function CartModal({ setShowCart }: any) {
           </div>
         ) : (
           <p className="text-gray-500">Seu carrinho está vazio.</p>
+        )}
+        {cartItems.length > 0 && (
+          <button
+            onClick={finalizeOrder}
+            className="mt-4 px-4 py-2 bg-green-600 text-white rounded"
+          >
+            Finalizar Pedido
+          </button>
         )}
         <button
           onClick={() => setShowCart(false)}
