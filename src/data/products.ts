@@ -2,7 +2,7 @@ export const products = [
     {
       id: 1,
       name: 'Camisa Polo',
-      price: 'R$ 59,90',
+      price: 59.90,
       description: 'Camisa polo masculina, várias cores.',
       image: '/images/polo.jpg',
       whatsappMessage: 'Olá, tenho interesse na Camisa Polo.',
@@ -10,7 +10,7 @@ export const products = [
     {
       id: 2,
       name: 'Tênis Esportivo',
-      price: 'R$ 199,90',
+      price: 199.90,
       description: 'Tênis esportivo, confortável e estiloso.',
       image: '/images/tenis.jpg',
       whatsappMessage: 'Olá, tenho interesse no Tênis Esportivo.',
@@ -18,7 +18,7 @@ export const products = [
     {
       id: 3,
       name: 'Relógio de Pulso',
-      price: 'R$ 299,90',
+      price: 299.90,
       description: 'Relógio de pulso masculino, resistente à água.',
       image: '/images/relogio.jpg',
       whatsappMessage: 'Olá, tenho interesse no Relógio de Pulso.',
@@ -26,7 +26,7 @@ export const products = [
     {
       id: 4,
       name: 'Camiseta Estampada',
-      price: 'R$ 39,90',
+      price: 39.90,
       description: 'Camiseta estampada, várias estampas disponíveis.',
       image: '/images/camiseta.jpg',
       whatsappMessage: 'Olá, tenho interesse na Camiseta Estampada.',
@@ -34,7 +34,7 @@ export const products = [
     {
       id: 5,
       name: 'Calça Jeans',
-      price: 'R$ 89,90',
+      price: 89.90,
       description: 'Calça jeans masculina, confortável e estilosa.',
       image: '/images/calca.jpg',
       whatsappMessage: 'Olá, tenho interesse na Calça Jeans.',
@@ -42,7 +42,7 @@ export const products = [
     {
       id: 6,
       name: 'Jaqueta de Couro',
-      price: 'R$ 399,90',
+      price: 399.90,
       description: 'Jaqueta de couro masculina, estilo clássico.',
       image: '/images/jaqueta.jpg',
       whatsappMessage: 'Olá, tenho interesse na Jaqueta de Couro.',
@@ -50,7 +50,7 @@ export const products = [
     {
       id: 7,
       name: 'Boné Estiloso',
-      price: 'R$ 29,90',
+      price: 29.90,
       description: 'Boné estiloso, várias cores disponíveis.',
       image: '/images/bone.jpg',
       whatsappMessage: 'Olá, tenho interesse no Boné Estiloso.',

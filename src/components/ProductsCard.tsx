@@ -1,7 +1,4 @@
-import React from "react";
-import { faker } from "@faker-js/faker";
 
-import { CardImg, Media, CardFooter, CardBody } from "reactstrap";
 import {
   Card,
   CardContent,
@@ -9,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import ProductImage from "./ProductImage";
 import { ProductsCardTypes } from "@/types/ProductsCardTypes";
 import { useCartStore } from "@/stores/CartStore";
@@ -17,13 +13,13 @@ import { AddCartItem } from "./AddCartItem";
 
 // import { randomArray, randomAvatar } from "./../../../utilities";
 
-// Tipagem para o componente
-const status: Array<"danger" | "success" | "warning" | "secondary"> = [
-  "danger",
-  "success",
-  "warning",
-  "secondary",
-];
+// // Tipagem para o componente
+// const status: Array<"danger" | "success" | "warning" | "secondary"> = [
+//   "danger",
+//   "success",
+//   "warning",
+//   "secondary",
+// ];
 
 const ProductsCard = ({
   id,
@@ -46,7 +42,7 @@ ProductsCardTypes) => {
         </CardHeader>
         <CardContent>
           <CardDescription className="">{description}</CardDescription>
-          <p className="text-green-600">{price}</p>
+          <p className="text-green-600">R$ {price.toFixed(2)}</p>
           <a
             href={`https://wa.me/5532999742701?text=${encodeURIComponent(
               whatsappMessage

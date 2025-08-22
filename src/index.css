@@ -22,10 +22,15 @@ body, */
 
   #root {
     width: 100vh !important;
+
     /* padding: 0 1rem;  */
     /* se quiser dar um respiro lateral */
   }
+  nav{
+    zoom:0.7;
+  }
 }
+
 
 html{
   width: -webkit-fill-available !important;

@@ -8,6 +8,7 @@ export const useCartStore = create<CartStoreType>()(
   persist(
     (set) => ({
       cart: [],
+      setCart: (cart: ProductType[]) => set({ cart }),
       addToCart: (product: ProductType) =>
         set((state: CartStoreType) => ({ cart: [...state.cart, product] })),
       clearCart: () => set({ cart: [] }),

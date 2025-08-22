@@ -1,10 +1,34 @@
-import { products } from "../data/products";
+import { products as ProductMock } from "../data/products";
 import { ProductsCard } from "../components/ProductsCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
+import { api } from "@/services/api";
+import { getProducts } from "@/functions/getProducts";
+import { ProductsCardTypes } from "@/types/ProductsCardTypes";
+import CartModal from "@/components/CartModal";
 
 export default function Home() {
   const [showCart, setShowCart] = useState(false);
+
+  const [products, setProducts] = useState([]);
+  console.log('products', products)
+
+  const loadProducts = async () => {
+    // Aqui você pode fazer a chamada para a API para carregar os produtos
+
+    getProducts().then((response) => {
+      console.log('response', response)
+      setProducts(response);
+    })
+
+  }
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+
+
   return (
     
     <div className="flex flex-col p-0" style={{
@@ -12,7 +36,7 @@ export default function Home() {
     }}>
       <Navbar onCartClick={() => setShowCart(!showCart)} />
       {/* Modal simples com os produtos do carrinho */}
-      {showCart && (
+      {/* {showCart && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-40">
           <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
             <h2 className="text-lg font-semibold mb-4">Seu Carrinho</h2>
@@ -25,10 +49,12 @@ export default function Home() {
             </button>
           </div>
         </div>
-      )}
+      )} */}
 
+      {showCart ? <CartModal setShowCart={setShowCart} /> 
+    :  
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
-        {products.map((item) => (
+        {ProductMock.map((item) => (
           <div key={item.id} className="">
             <ProductsCard
               id={item.id}
@@ -43,6 +69,8 @@ export default function Home() {
           </div>
         ))}
       </div>
+    }
+
     </div>
   );
 }

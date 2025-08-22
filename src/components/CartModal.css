@@ -1,0 +1,68 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+.ModalContainer{
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 5%
+}
+
+.RemoveItemButton{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--destructive);
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 2%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.CartNameProduct{
+    font-size: 1.0rem;
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+
+.CartDescriptionProduct{
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--muted-foreground);
+}
+
+text-lg font-bold
+
+.CartPriceProduct{
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--accent-foreground);
+}
+
+.QuantityContainer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+}
+
+.QuantityButton{
+    background-color: transparent;
+    border: solid 1px var(--foreground);
+    cursor: pointer;
+    color: var(--foreground);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 2%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 30%;
+}

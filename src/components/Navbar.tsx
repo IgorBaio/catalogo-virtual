@@ -3,6 +3,7 @@ import React from "react";
 import { ShoppingCart } from "lucide-react";
 import { CartStoreType } from "@/types/CartStoreType";
 import { useCartStore } from "@/stores/CartStore";
+import "./Navbar.css";
 
 interface NavbarProps {
   onCartClick: () => void;
@@ -11,8 +12,8 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ onCartClick }) => {
   const cart = useCartStore((state: CartStoreType) => state.cart);
   return (
-    <nav className="flex items-center justify-between px-4 py-3 bg-white shadow-md sticky top-0 z-50 max-w">
-      <h1 className="text-xl font-bold text-gray-800">Meu Estabelecimento</h1>
+    <div className="flex items-center justify-between px-4 py-3 bg-white shadow-md sticky top-0 z-50 max-w">
+      <span className="OwnerTitle">Meu Estabelecimento</span>
 
       <button
         onClick={onCartClick}
@@ -26,7 +27,7 @@ const Navbar: React.FC<NavbarProps> = ({ onCartClick }) => {
           </span>
         )}
       </button>
-    </nav>
+    </div>
   );
 };
 
