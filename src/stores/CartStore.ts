@@ -43,12 +43,12 @@ export const useCartStore = create<CartStoreType>()(
         set((state: CartStoreType) => ({
           cartItem: state.cartItem.filter((i) => i.product.id !== id),
         })),
-      clearCart: () => set({ cart: [] }),
+      clearCart: () => set({ cart: [], cartItem: [] }),
     }),
     {
       name: "cart-storage",
       storage: createJSONStorage(() => localStorage),
-      partialize: ({ cart }: CartStoreType) => ({ cart }),
+      partialize: ({ cart, cartItem }: CartStoreType) => ({ cart, cartItem }),
     }
   )
 );
