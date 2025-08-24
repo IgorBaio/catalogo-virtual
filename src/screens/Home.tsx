@@ -48,6 +48,15 @@ export default function Home() {
             >
               Buscar
             </button>
+            <button
+              onClick={() => {
+                setSearchTerm("");
+                loadProducts();
+              }}
+              className="ml-2 px-4 py-2 bg-gray-500 text-white rounded"
+            >
+              Limpar Filtro
+            </button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {products.map((item) => (
