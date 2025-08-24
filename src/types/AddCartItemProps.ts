@@ -1,6 +1,6 @@
 import { ProductType } from "./ProductType";
 
 export interface AddCartItemProps {
-  addToCart: (product: ProductType) => void;
+  addToCart: () => void;
   product: ProductType;
 }

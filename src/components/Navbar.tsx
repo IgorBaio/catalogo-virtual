@@ -4,13 +4,17 @@ import { ShoppingCart } from "lucide-react";
 import { CartStoreType } from "@/types/CartStoreType";
 import { useCartStore } from "@/stores/CartStore";
 import "./Navbar.css";
+import { CartItemType } from "@/types/CartItemType";
 
 interface NavbarProps {
   onCartClick: () => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ onCartClick }) => {
-  const cart = useCartStore((state: CartStoreType) => state.cart);
+  const cartItem = useCartStore((state: CartStoreType) => state.cartItem);
+  const calculateCartCount = (cartItems: CartItemType[]) => {
+    return cartItems.reduce((total, item) => total + item.quantity, 0);
+  }
   return (
     <div className="flex items-center justify-between px-4 py-3 bg-white shadow-md sticky top-0 z-50 max-w">
       <span className="OwnerTitle">Meu Estabelecimento</span>
@@ -21,9 +25,9 @@ const Navbar: React.FC<NavbarProps> = ({ onCartClick }) => {
         aria-label="Carrinho"
       >
         <ShoppingCart className="w-6 h-6 " />
-        {cart.length > 0 && (
+        {cartItem.length > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-            {cart.length}
+            {calculateCartCount(cartItem) > 99 ? "99+" : calculateCartCount(cartItem)}
           </span>
         )}
       </button>

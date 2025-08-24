@@ -1,10 +1,8 @@
 import { useCartStore } from "@/stores/CartStore";
 import { CartStoreType } from "@/types/CartStoreType";
 import "./CartModal.css";
-import { useEffect, useState } from "react";
-import { ProductType } from "@/types/ProductType";
-import { CartItemType } from "@/types/CartItemType";
 import { finalizeOrder } from "@/functions/finalizeOrder";
+import { normalizeCurrency } from "@/functions/normalizeCurrency";
 export default function CartModal({ setShowCart }: any) {
   /**
    * TODO
@@ -18,74 +16,13 @@ export default function CartModal({ setShowCart }: any) {
    *
    */
 
-  const { cart, setCart } = useCartStore((state: CartStoreType) => state);
+  const {  
+    addToCartItem, 
+    cartItem, 
+    removeFromCartItem,
+    decreaseFromCart 
+  } = useCartStore((state: CartStoreType) => state);
 
-  const [cartItems, setCartItems] = useState([] as CartItemType[]);
-
-  // const [cartItem]
-
-  const removeItem = (id: number, idx: number) => {
-    const quantityOfItems = cart.filter((item) => item.id === id).length;
-    console.log("quantityOfItems", quantityOfItems);
-    if (quantityOfItems === 1) {
-      const updatedCart = cart.filter((item) => item.id !== id);
-      console.log("updatedCart", updatedCart);
-      setCart(updatedCart);
-    } else {
-      console.log("else");
-      const newCart: ProductType[] = [];
-      cart.forEach((item, index) => {
-        if (item.id !== id && index !== idx) {
-          newCart.push({
-            ...item,
-            // quantity: item.quantity - 1
-          });
-        }
-        // return item;
-      });
-      console.log("newCart", newCart);
-      const updatedCart = cart.filter(
-        (item, index) => item.id !== id && index !== idx
-      );
-      console.log("updatedCart", updatedCart);
-      setCart(updatedCart);
-    }
-  };
-
-  useEffect(() => {
-    const cartItemsAux = [] as CartItemType[];
-    console.log("cartItemsAux", cartItemsAux);
-    console.log("cart", cart);
-    cart.forEach((item) => {
-      if (cartItemsAux.some((cartItem) => cartItem.product.id === item.id)) {
-        const itemToAdd = cartItemsAux.find(
-          (cartItem) => cartItem.product.id === item.id
-        );
-        if (itemToAdd) {
-          itemToAdd.quantity += 1;
-          itemToAdd.totalPrice += item.price;
-        }
-      } else {
-        // debugger
-        cartItemsAux.push({
-          product: item,
-          quantity: 1,
-          totalPrice: item.price,
-          // totalPriceWithDiscount: item.price - (item.price * (item.discount / 100)),
-        });
-      }
-      // cartItemsAux.push({
-      //     id: item.id,
-      //     name: item.name,
-      //     description: item.description,
-      //     price: item.price,
-      //     quantity: 1,
-      //     totalPrice: item.price,
-      // });
-    });
-
-    setCartItems(cartItemsAux);
-  }, [cart]);
 
   return (
     <div className="ModalContainer">
@@ -110,9 +47,9 @@ export default function CartModal({ setShowCart }: any) {
           </svg>
         </button>
         <h2 className="text-lg font-semibold mb-4">Seu Carrinho</h2>
-        {cartItems.length > 0 ? (
+        {cartItem.length > 0 ? (
           <div className="flex flex-col gap-4">
-            {cartItems.map((item, idx) => (
+            {cartItem?.map((item, idx) => (
               <div
                 key={item.product.id}
                 className="flex items-center justify-between"
@@ -126,8 +63,7 @@ export default function CartModal({ setShowCart }: any) {
                   <div className="QuantityContainer">
                     <button
                       onClick={() => {
-                        removeItem(item.product.id, idx);
-                        // Aqui você pode adicionar a lógica para aumentar a quantidade
+                        decreaseFromCart(item.product.id);
                       }}
                       className="QuantityButton"
                     >
@@ -135,27 +71,30 @@ export default function CartModal({ setShowCart }: any) {
                     </button>
                     <span className="QuantityText">{item.quantity}</span>
                     <button
-                      onClick={() => {
-                        // Aqui você pode adicionar a lógica para diminuir a quantidade
+                      onClick={()=>{
+                        addToCartItem({ 
+                          product: item.product,
+                          quantity: 1,
+                          totalPrice: item.product.price
+                        })
                       }}
                       className="QuantityButton"
                     >
                       +
                     </button>
                   </div>
-                  <span className="text-lg font-bold">{item.totalPrice}</span>
+                  <span className="text-lg font-bold">{normalizeCurrency(item.totalPrice)}</span>
                 </div>
                 <button
                   onClick={() => {
-                    console.log("cart", cart);
                     console.log("idx", idx);
                     console.log("item.product.id", item.product.id);
-                    removeItem(item.product.id, idx);
-                    // Aqui você pode adicionar a lógica para remover o item do carrinho
+                    if (removeFromCartItem) {
+                      removeFromCartItem(item.product.id);
+                    }
                   }}
                   className="RemoveItemButton"
                 >
-                  {/* Adicionar icone de lixeira */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6"
@@ -177,10 +116,9 @@ export default function CartModal({ setShowCart }: any) {
         ) : (
           <p className="text-gray-500">Seu carrinho está vazio.</p>
         )}
-        {cartItems.length > 0 && (
+        {cartItem.length > 0 && (
           <a
-            // onClick={finalizeOrder}
-            href={finalizeOrder({cartItems})}
+            href={finalizeOrder({cartItems:cartItem})}
             className="block mt-2 text-white bg-green-700 text-center rounded py-1"
             target="_blank"
             rel="noopener noreferrer"

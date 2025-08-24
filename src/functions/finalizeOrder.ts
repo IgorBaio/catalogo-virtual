@@ -1,4 +1,5 @@
 import { FinalizeOrderProps } from "@/types/FinalizeOrderProps";
+import { normalizeCurrency } from "./normalizeCurrency";
 
 export const finalizeOrder = ({
     cartItems,
@@ -10,12 +11,10 @@ export const finalizeOrder = ({
         (item) =>
           `${item.quantity}x ${
             item.product.name
-          } - R$ ${item.totalPrice.toFixed(2)}`
+          } - R$ ${normalizeCurrency(item.totalPrice)}`
       )
       .join("\n");
-    const message = `Olá, gostaria de finalizar meu pedido:\n${itemsMessage}\nTotal: R$ ${total.toFixed(
-      2
-    )}`;
+    const message = `Olá, gostaria de finalizar meu pedido:\n${itemsMessage}\nTotal: R$ ${normalizeCurrency(total)}`;
     
     return `https://wa.me/5532999742701?text=${encodeURIComponent(message)}`
   };

@@ -13,25 +13,14 @@ import { AddCartItem } from "./AddCartItem";
 import { CartItemType } from "@/types/CartItemType";
 import { finalizeOrder } from "@/functions/finalizeOrder";
 
-// import { randomArray, randomAvatar } from "./../../../utilities";
-
-// // Tipagem para o componente
-// const status: Array<"danger" | "success" | "warning" | "secondary"> = [
-//   "danger",
-//   "success",
-//   "warning",
-//   "secondary",
-// ];
-
 const ProductsCard = ({
   id,
   name,
   description,
   price,
-  whatsappMessage,
   image = "https://github.com/shadcn.png",
 }: ProductsCardTypes) => {
-  const addToCart = useCartStore((state) => state.addToCart);
+  const addToCartItem = useCartStore((state) => state.addToCartItem);
 
   const finalizeOneOrder = () => {
     const cartItems: CartItemType[] = []
@@ -49,6 +38,21 @@ const ProductsCard = ({
     cartItems.push(item);
     return finalizeOrder({cartItems});
 
+  }
+
+  const addToCart = () =>{
+    const item: CartItemType = {
+      product: {
+        id,
+        name,
+        description,
+        price,
+      },
+      quantity: 1,
+      totalPrice: price,
+    };
+
+    addToCartItem(item);
   }
 
   return (

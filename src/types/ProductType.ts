@@ -5,4 +5,5 @@ export interface ProductType {
   description: string;
   image?: string;
   whatsappMessage?: string;
+  category?: string;
 }
