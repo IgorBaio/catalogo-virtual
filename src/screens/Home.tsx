@@ -12,8 +12,8 @@ export default function Home() {
 
   const loadProducts = async (name?: string) => {
     const data = await getProducts(name);
-    if (data) {
-      setProducts(data);
+    if (data?.data) {
+      setProducts(data.data);
     }
   };
 
