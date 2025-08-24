@@ -1,9 +1,10 @@
 import { api } from "../services/api";
 
-const getProducts = async () => {
+const getProducts = async (name?: string) => {
   try {
-    const response = await api.get("produto/query/BaioSystem");
-    console.log(response.data);
+    const response = await api.get("produto/query/BaioSystem", {
+      params: name ? { name } : {},
+    });
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar produtos:", error);
