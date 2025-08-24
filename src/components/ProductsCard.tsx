@@ -10,6 +10,8 @@ import ProductImage from "./ProductImage";
 import { ProductsCardTypes } from "@/types/ProductsCardTypes";
 import { useCartStore } from "@/stores/CartStore";
 import { AddCartItem } from "./AddCartItem";
+import { CartItemType } from "@/types/CartItemType";
+import { finalizeOrder } from "@/functions/finalizeOrder";
 
 // import { randomArray, randomAvatar } from "./../../../utilities";
 
@@ -30,6 +32,25 @@ const ProductsCard = ({
   image = "https://github.com/shadcn.png",
 }: ProductsCardTypes) => {
   const addToCart = useCartStore((state) => state.addToCart);
+
+  const finalizeOneOrder = () => {
+    const cartItems: CartItemType[] = []
+    const item: CartItemType = {
+      product: {
+        id,
+        name,
+        description,
+        price,
+      },
+      quantity: 1,
+      totalPrice: price,
+    };
+
+    cartItems.push(item);
+    return finalizeOrder({cartItems});
+
+  }
+
   return (
     <>
       <Card className="p-2 shadow border-none">
@@ -42,9 +63,7 @@ const ProductsCard = ({
           <CardDescription className="">{description}</CardDescription>
           <p className="text-green-600">R$ {price.toFixed(2)}</p>
           <a
-            href={`https://wa.me/5532999742701?text=${encodeURIComponent(
-              whatsappMessage ?? ''
-            )}`}
+            href={finalizeOneOrder()}
             className="block mt-2 text-white bg-green-700 text-center rounded py-1"
             target="_blank"
             rel="noopener noreferrer"
@@ -61,9 +80,6 @@ const ProductsCard = ({
             }}
           />
         </CardContent>
-        {/* <CardFooter>
-        <p>Card Footer</p>
-      </CardFooter> */}
       </Card>
     </>
   );

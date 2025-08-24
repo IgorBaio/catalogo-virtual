@@ -4,6 +4,7 @@ import "./CartModal.css";
 import { useEffect, useState } from "react";
 import { ProductType } from "@/types/ProductType";
 import { CartItemType } from "@/types/CartItemType";
+import { finalizeOrder } from "@/functions/finalizeOrder";
 export default function CartModal({ setShowCart }: any) {
   /**
    * TODO
@@ -49,28 +50,6 @@ export default function CartModal({ setShowCart }: any) {
       console.log("updatedCart", updatedCart);
       setCart(updatedCart);
     }
-  };
-
-  const finalizeOrder = () => {
-    if (cartItems.length === 0) return;
-    const total = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
-    const itemsMessage = cartItems
-      .map(
-        (item) =>
-          `${item.quantity}x ${
-            item.product.name
-          } - R$ ${item.totalPrice.toFixed(2)}`
-      )
-      .join("\n");
-    const message = `Olá, gostaria de finalizar meu pedido:\n${itemsMessage}\nTotal: R$ ${total.toFixed(
-      2
-    )}`;
-    // window.open(
-    //   `https://wa.me/5532999742701?text=${encodeURIComponent(message)}`,
-    //   "_blank",
-    //   "noopener,noreferrer"
-    // );
-    return `https://wa.me/5532999742701?text=${encodeURIComponent(message)}`
   };
 
   useEffect(() => {
@@ -201,7 +180,7 @@ export default function CartModal({ setShowCart }: any) {
         {cartItems.length > 0 && (
           <a
             // onClick={finalizeOrder}
-            href={finalizeOrder()}
+            href={finalizeOrder({cartItems})}
             className="block mt-2 text-white bg-green-700 text-center rounded py-1"
             target="_blank"
             rel="noopener noreferrer"
