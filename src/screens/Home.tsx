@@ -34,7 +34,7 @@ export default function Home() {
         <CartModal setShowCart={setShowCart} />
       ) : (
         <div className="p-4">
-          <div className="flex mb-4">
+          <div className="flex mb-2">
             <input
               type="text"
               placeholder="Buscar produto..."
@@ -48,12 +48,14 @@ export default function Home() {
             >
               Buscar
             </button>
+          </div>
+          <div className="mb-4">
             <button
               onClick={() => {
                 setSearchTerm("");
                 loadProducts();
               }}
-              className="ml-2 px-4 py-2 bg-gray-500 text-white rounded"
+              className="w-full px-4 py-2 bg-gray-500 text-white rounded"
             >
               Limpar Filtro
             </button>
