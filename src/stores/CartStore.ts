@@ -5,6 +5,8 @@ import { ProductType } from "@/types/ProductType";
 import { CartStoreType } from "@/types/CartStoreType";
 import { CartItemType } from "@/types/CartItemType";
 
+const STORAGE_KEY = "cart-storage";
+
 export const useCartStore = create<CartStoreType>()(
   persist(
     (set) => ({
@@ -43,10 +45,13 @@ export const useCartStore = create<CartStoreType>()(
         set((state: CartStoreType) => ({
           cartItem: state.cartItem.filter((i) => i.product.id !== id),
         })),
-      clearCart: () => set({ cart: [], cartItem: [] }),
+      clearCart: () => {
+        set({ cart: [], cartItem: [] });
+        localStorage.removeItem(STORAGE_KEY);
+      },
     }),
     {
-      name: "cart-storage",
+      name: STORAGE_KEY,
       storage: createJSONStorage(() => localStorage),
       partialize: ({ cart, cartItem }: CartStoreType) => ({ cart, cartItem }),
     }
