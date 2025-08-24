@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import { getProducts } from "@/functions/getProducts";
 import CartModal from "@/components/CartModal";
+import { ProductType } from "@/types/ProductType";
 
 export default function Home() {
   const [showCart, setShowCart] = useState(false);
 
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([] as ProductType[]);
   console.log('products', products)
 
   const loadProducts = async () => {
@@ -16,7 +17,7 @@ export default function Home() {
 
     getProducts().then((response) => {
       console.log('response', response)
-      setProducts(response);
+      setProducts(response.data);
     })
 
   }
@@ -52,14 +53,14 @@ export default function Home() {
       {showCart ? <CartModal setShowCart={setShowCart} /> 
     :  
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
-        {ProductMock.map((item) => (
+        {products.map((item) => (
           <div key={item.id} className="">
             <ProductsCard
               id={item.id}
               name={item.name}
               description={item.description}
               price={item.price}
-              // image={item.image}
+              image={item.image}
               whatsappMessage={
                 item.whatsappMessage ||
                 `Olá, tenho interesse no produto ${item.name}.`
