@@ -1,13 +1,19 @@
-# Stage 1: build
-FROM node:20-alpine AS build
+# Stage 1: build the Go binary
+FROM golang:1.22-alpine AS build
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
 
-# Stage 2: web server
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Download dependencies
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy the source and build
+COPY . .
+RUN go build -o catalogo-virtual
+
+# Stage 2: create a minimal image
+FROM alpine:latest
+WORKDIR /app
+COPY --from=build /app/catalogo-virtual ./catalogo-virtual
+
+EXPOSE 8080
+CMD ["./catalogo-virtual"]
