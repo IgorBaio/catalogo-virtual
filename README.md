@@ -52,3 +52,19 @@ export default tseslint.config({
   },
 })
 ```
+
+## Docker Deployment (Portainer)
+
+Build the production bundle and serve it with Nginx inside a Docker container:
+
+```bash
+docker build -t catalogo-virtual .
+```
+
+Run the image locally or through Portainer:
+
+```bash
+docker run -p 8080:80 catalogo-virtual
+```
+
+The application will be available at http://localhost:8080.
