@@ -4,4 +4,4 @@ node_modules
 Dockerfile
 .dockerignore
 dist
-
+app
