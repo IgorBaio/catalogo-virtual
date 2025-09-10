@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+.imageProduct {
+  width: 200px;
+  height: 200px;
+  object-fit: cover; /* preenche e corta o excedente */
+  object-position: center;
+  border-radius: 12px;
+}

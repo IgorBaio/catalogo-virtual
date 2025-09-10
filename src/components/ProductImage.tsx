@@ -1,4 +1,5 @@
 import React from "react";
+import "./ProductImage.css";
 
 interface ProductImageProps {
   src: string;
@@ -15,7 +16,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
 }) => {
   return (
     <div
-      className="rounded-2xl shadow-md overflow-hidden border border-gray-200 bg-white"
+      className="rounded-2xl shadow-md overflow-hidden border border-gray-200 bg-white imageProduct"
       style={{ width, height }}
     >
       <img
