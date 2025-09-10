@@ -3,7 +3,7 @@ import React from "react";
 import { ShoppingCart } from "lucide-react";
 import { CartStoreType } from "@/types/CartStoreType";
 import { useCartStore } from "@/stores/CartStore";
-import "./Navbar.css";
+import "./NavBar.css";
 import { CartItemType } from "@/types/CartItemType";
 
 interface NavbarProps {
