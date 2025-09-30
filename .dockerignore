@@ -1,0 +1,8 @@
+node_modules
+.git
+.vscode
+Dockerfile
+.dockerignore
+.gitignore
+.DS_Store
+dist
